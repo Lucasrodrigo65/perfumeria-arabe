@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from './lib/supabase';
 import { Trash2, Plus, MessageCircle, Shield } from 'lucide-react';
+import './parfumerie.css';
 
 function App() {
   const [perfumes, setPerfumes] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
   const [form, setForm] = useState({ nombre: '', marca: '', precio: '', imagen_url: '' });
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
     fetchPerfumes();
@@ -36,48 +38,81 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 text-slate-100 p-8 font-sans">
-      <header className="flex justify-between items-center mb-12 border-b border-slate-700 pb-4">
-        <h1 className="text-3xl font-bold tracking-tighter text-amber-500">ARABIAN SCENTS</h1>
-        <button onClick={() => setIsAdmin(!isAdmin)} className="flex items-center gap-2 text-xs opacity-50 hover:opacity-100">
-          <Shield size={14} /> {isAdmin ? 'Ver Tienda' : 'Admin'}
+    <div style={{ background: '#fff', minHeight: '100vh' }}>
+      {/* Header tipo Parfumerie */}
+      <header className="header-parfumerie">
+        <div className="logo-parfumerie">Parfumerie.</div>
+        <nav className="menu-parfumerie">
+          <a href="#">PARFUSALE</a>
+          <a href="#">FRAGANCIAS XXL</a>
+          <a href="#">K-BEAUTY</a>
+          <a href="#">FRAGANCIAS</a>
+          <a href="#">MAQUILLAJE</a>
+          <a href="#">TRATAMIENTO</a>
+          <a href="#">CAPILAR</a>
+          <a href="#">LANZAMIENTOS</a>
+          <a href="#">MARCAS</a>
+          <a href="#">REGALOS</a>
+        </nav>
+        <div className="search-bar">
+          <input
+            type="text"
+            placeholder="¿Qué buscás?"
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+          />
+        </div>
+        <button onClick={() => setIsAdmin(!isAdmin)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#888', fontSize: 14, marginRight: 16 }}>
+          <Shield size={16} style={{ verticalAlign: 'middle' }} /> {isAdmin ? 'Ver Tienda' : 'Admin'}
         </button>
       </header>
 
+      {/* Admin */}
       {isAdmin ? (
-        <div className="max-w-md mx-auto bg-slate-800 p-6 rounded-xl shadow-2xl">
-          <h2 className="text-xl mb-4 font-semibold">Agregar Nuevo Perfume</h2>
-          <form onSubmit={addPerfume} className="flex flex-col gap-3 text-slate-900">
-            <input placeholder="Nombre" className="p-2 rounded" value={form.nombre} onChange={e => setForm({...form, nombre: e.target.value})} required />
-            <input placeholder="Marca (Lattafa, Afnan...)" className="p-2 rounded" value={form.marca} onChange={e => setForm({...form, marca: e.target.value})} />
-            <input placeholder="Precio" type="number" className="p-2 rounded" value={form.precio} onChange={e => setForm({...form, precio: e.target.value})} required />
-            <input placeholder="URL de la imagen" className="p-2 rounded" value={form.imagen_url} onChange={e => setForm({...form, imagen_url: e.target.value})} />
-            <button className="bg-amber-500 text-white p-2 rounded font-bold mt-2 flex justify-center items-center gap-2">
+        <div style={{ maxWidth: 900, margin: '40px auto', background: '#fff', borderRadius: 18, boxShadow: '0 2px 16px 0 rgba(0,0,0,0.07)', border: '1px solid #ececec', padding: 32 }}>
+          <h2 style={{ fontSize: '2rem', fontWeight: 700, marginBottom: 24, textAlign: 'center' }}>Agregar Nuevo Perfume</h2>
+          <form onSubmit={addPerfume} style={{ display: 'flex', gap: 8, marginBottom: 32 }}>
+            <input placeholder="Nombre" style={{ flex: 2, padding: 8, borderRadius: 8, border: '1px solid #ececec' }} value={form.nombre} onChange={e => setForm({...form, nombre: e.target.value})} required />
+            <input placeholder="Marca (Lattafa, Afnan...)" style={{ flex: 2, padding: 8, borderRadius: 8, border: '1px solid #ececec' }} value={form.marca} onChange={e => setForm({...form, marca: e.target.value})} />
+            <input placeholder="Precio" type="number" style={{ flex: 1, padding: 8, borderRadius: 8, border: '1px solid #ececec' }} value={form.precio} onChange={e => setForm({...form, precio: e.target.value})} required />
+            <input placeholder="URL de la imagen" style={{ flex: 3, padding: 8, borderRadius: 8, border: '1px solid #ececec' }} value={form.imagen_url} onChange={e => setForm({...form, imagen_url: e.target.value})} />
+            <button style={{ background: '#c084fc', color: '#fff', border: 'none', borderRadius: 8, padding: '0 18px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 6 }}>
               <Plus size={18} /> Guardar Perfume
             </button>
           </form>
+          <table style={{ width: '100%', textAlign: 'left', borderCollapse: 'collapse' }}>
+            <thead><tr style={{ borderBottom: '1px solid #ececec' }}><th>Nombre</th><th>Precio</th><th>Acción</th></tr></thead>
+            <tbody>
+              {perfumes.map(p => (
+                <tr key={p.id} style={{ borderBottom: '1px solid #f4f4f4' }}>
+                  <td style={{ padding: 8 }}>{p.nombre}</td>
+                  <td style={{ padding: 8 }}>${p.precio}</td>
+                  <td style={{ padding: 8 }}><button onClick={() => deletePerfume(p.id)} style={{ color: '#e11d48', background: 'none', border: 'none' }}><Trash2 size={18}/></button></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {perfumes.map(p => (
-            <div key={p.id} className="bg-slate-800 rounded-2xl overflow-hidden border border-slate-700 hover:border-amber-500 transition-all group">
-              <div className="h-64 bg-slate-700 overflow-hidden">
-                <img src={p.imagen_url || 'https://via.placeholder.com/300'} alt={p.nombre} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
-              </div>
-              <div className="p-5">
-                <p className="text-xs text-amber-500 uppercase tracking-widest">{p.marca}</p>
-                <h3 className="text-xl font-bold mb-2">{p.nombre}</h3>
-                <p className="text-2xl font-light text-slate-300 mb-6">${p.precio}</p>
-                <button onClick={() => sendWhatsApp(p)} className="w-full bg-green-600 hover:bg-green-500 p-3 rounded-lg flex justify-center items-center gap-2 font-bold transition-colors">
-                  <MessageCircle size={20} /> Consultar por WhatsApp
+        <div className="cards-parfumerie">
+          {perfumes.filter(p =>
+            p.nombre.toLowerCase().includes(search.toLowerCase()) ||
+            p.marca?.toLowerCase().includes(search.toLowerCase())
+          ).map(p => (
+            <div key={p.id} className="card-parfumerie">
+              <img src={p.imagen_url || 'https://via.placeholder.com/300'} alt={p.nombre} />
+              <div style={{ padding: 24 }}>
+                <div className="marca">{p.marca}</div>
+                <div className="nombre">{p.nombre}</div>
+                <div className="precio">${p.precio}</div>
+                <button onClick={() => sendWhatsApp(p)} className="btn-whatsapp">
+                  <MessageCircle size={20} style={{ verticalAlign: 'middle', marginRight: 8 }} /> Consultar por WhatsApp
                 </button>
               </div>
             </div>
           ))}
         </div>
       )}
-
-      {/* Listado de gestión para el admin */}
       {isAdmin && (
         <div className="mt-12 overflow-x-auto">
           <table className="w-full text-left">
