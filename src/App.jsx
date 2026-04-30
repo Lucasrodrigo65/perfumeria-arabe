@@ -4,7 +4,7 @@ import { Trash2, Plus, MessageCircle, Shield } from 'lucide-react';
 import './parfumerie.css';
 import goldenLogo from './assets/golden-essence-logo.png';
 
-const WHATSAPP_NUMBER = '5493834000000'; // Reemplaza con tu número real de WhatsApp
+const WHATSAPP_NUMBER = '543834540707'; // Reemplaza con tu número real de WhatsApp
 
 function App() {
   const [perfumes, setPerfumes] = useState([]);
