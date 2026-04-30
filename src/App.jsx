@@ -76,11 +76,11 @@ function App() {
   };
 
   return (
-    <div style={{ background: '#fff', minHeight: '100vh' }}>
+    <div style={{ background: '#0d0d0d', minHeight: '100vh' }}>
       {error && (
-        <div style={{ background: '#fee2e2', color: '#b91c1c', padding: '12px 24px', textAlign: 'center', fontWeight: 600 }}>
+        <div style={{ background: '#1f0a0a', color: '#f87171', padding: '12px 24px', textAlign: 'center', fontWeight: 600, border: '1px solid #3b1010' }}>
           {error}
-          <button onClick={() => setError(null)} style={{ marginLeft: 12, background: 'none', border: 'none', color: '#b91c1c', fontWeight: 700, cursor: 'pointer' }}>✕</button>
+          <button onClick={() => setError(null)} style={{ marginLeft: 12, background: 'none', border: 'none', color: '#f87171', fontWeight: 700, cursor: 'pointer', fontSize: 16 }}>✕</button>
         </div>
       )}
 
@@ -91,7 +91,7 @@ function App() {
           <div className="logo-parfumerie" style={{ fontFamily: 'Playfair Display, serif', fontWeight: 700, fontSize: '2rem', color: '#FFD700', letterSpacing: 2, textShadow: '1px 1px 8px #000' }}>GOLDEN ESSENCE</div>
         </div>
         <nav className="menu-parfumerie">
-          <a href="#" style={{ color: '#c084fc', fontWeight: 700, fontSize: '1.1rem' }}>PERFUMES</a>
+          <a href="#" style={{ color: '#FFD700', fontWeight: 600, fontSize: '0.95rem', letterSpacing: '1px' }}>PERFUMES</a>
         </nav>
         <div className="search-bar">
           <input
@@ -142,13 +142,15 @@ function App() {
           ) : (
             filteredPerfumes.map(p => (
               <div key={p.id} className="card-parfumerie">
-                <img src={p.imagen_url || 'https://via.placeholder.com/300'} alt={p.nombre} />
-                <div style={{ padding: 24 }}>
+                <div className="img-container">
+                  <img src={p.imagen_url || 'https://via.placeholder.com/300'} alt={p.nombre} />
+                </div>
+                <div className="content">
                   <div className="marca">{p.marca}</div>
                   <div className="nombre">{p.nombre}</div>
                   <div className="precio">${p.precio}</div>
                   <button onClick={() => sendWhatsApp(p)} className="btn-whatsapp">
-                    <MessageCircle size={20} style={{ verticalAlign: 'middle', marginRight: 8 }} /> Consultar por WhatsApp
+                    <MessageCircle size={18} /> Consultar por WhatsApp
                   </button>
                 </div>
               </div>
