@@ -382,4 +382,57 @@ body {
     justify-content: center;
     padding: 16px;
   }
+
+  .admin-cancel-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 16px;
+    box-sizing: border-box;
+  }
+
+  .admin-panel-container {
+    margin: 20px 16px;
+    padding: 16px;
+  }
+
+  .admin-panel-title {
+    font-size: 1.5rem;
+  }
+
+  /* Transformar la tabla en tarjetas para móviles */
+  .admin-table, .admin-table tbody, .admin-table tr, .admin-table td {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .admin-table thead {
+    display: none;
+  }
+
+  .admin-table tr {
+    margin-bottom: 16px;
+    background: #0a0a0a;
+    border-radius: 8px;
+    border: 1px solid #1a1a1a;
+    padding: 12px;
+  }
+
+  .admin-table td {
+    border-bottom: none;
+    padding: 6px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.95rem;
+  }
+
+  .admin-table td:nth-child(1)::before { content: "Nombre:"; color: #D4AF37; font-weight: bold; margin-right: 8px; }
+  .admin-table td:nth-child(2)::before { content: "Precio:"; color: #D4AF37; font-weight: bold; margin-right: 8px; }
+  .admin-table td:nth-child(3) { 
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #1a1a1a;
+    justify-content: center;
+  }
 }
