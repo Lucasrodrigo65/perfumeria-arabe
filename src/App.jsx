@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from './lib/supabase';
-import { Trash2, Plus, MessageCircle, Shield } from 'lucide-react';
+import { Trash2, Plus, MessageCircle, Shield, Pencil, X } from 'lucide-react';
 import './parfumerie.css';
 import goldenLogo from './assets/golden-essence-logo.png';
 
@@ -10,6 +10,7 @@ function App() {
   const [perfumes, setPerfumes] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
   const [form, setForm] = useState({ nombre: '', marca: '', precio: '', imagen_url: '' });
+  const [editingId, setEditingId] = useState(null);
   const [search, setSearch] = useState('');
   const [error, setError] = useState(null);
 
@@ -28,16 +29,38 @@ function App() {
     }
   }
 
-  async function addPerfume(e) {
+  async function savePerfume(e) {
     e.preventDefault();
     setError(null);
-    const { error: err } = await supabase.from('perfumes').insert([form]);
-    if (err) {
-      setError('Error al agregar perfume: ' + err.message);
+    if (editingId) {
+      const { error: err } = await supabase.from('perfumes').update(form).eq('id', editingId);
+      if (err) {
+        setError('Error al actualizar perfume: ' + err.message);
+      } else {
+        setForm({ nombre: '', marca: '', precio: '', imagen_url: '' });
+        setEditingId(null);
+        fetchPerfumes();
+      }
     } else {
-      setForm({ nombre: '', marca: '', precio: '', imagen_url: '' });
-      fetchPerfumes();
+      const { error: err } = await supabase.from('perfumes').insert([form]);
+      if (err) {
+        setError('Error al agregar perfume: ' + err.message);
+      } else {
+        setForm({ nombre: '', marca: '', precio: '', imagen_url: '' });
+        fetchPerfumes();
+      }
     }
+  }
+
+  function handleEditClick(p) {
+    setForm({ nombre: p.nombre, marca: p.marca || '', precio: p.precio, imagen_url: p.imagen_url || '' });
+    setEditingId(p.id);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function handleCancelEdit() {
+    setForm({ nombre: '', marca: '', precio: '', imagen_url: '' });
+    setEditingId(null);
   }
 
   async function deletePerfume(id) {
@@ -111,29 +134,41 @@ function App() {
 
       {/* Admin */}
       {isAdmin && (
-        <div style={{ maxWidth: 900, margin: '40px auto', background: '#fff', borderRadius: 18, boxShadow: '0 2px 16px 0 rgba(0,0,0,0.07)', border: '1px solid #ececec', padding: 32 }}>
-          <h2 style={{ fontSize: '2rem', fontWeight: 700, marginBottom: 24, textAlign: 'center' }}>Agregar Nuevo Perfume</h2>
-          <form onSubmit={addPerfume} className="admin-form">
+        <div className="admin-panel-container">
+          <h2 className="admin-panel-title">{editingId ? 'Editar Perfume' : 'Agregar Nuevo Perfume'}</h2>
+          <form onSubmit={savePerfume} className="admin-form">
             <input placeholder="Nombre" className="admin-input" value={form.nombre} onChange={e => setForm({...form, nombre: e.target.value})} required />
             <input placeholder="Marca (Lattafa, Afnan...)" className="admin-input" value={form.marca} onChange={e => setForm({...form, marca: e.target.value})} />
             <input placeholder="Precio" type="number" className="admin-input" value={form.precio} onChange={e => setForm({...form, precio: e.target.value})} required />
             <input placeholder="URL de la imagen" className="admin-input image-url-input" value={form.imagen_url} onChange={e => setForm({...form, imagen_url: e.target.value})} />
-            <button className="admin-submit-btn">
-              <Plus size={18} /> Guardar
+            <button type="submit" className="admin-submit-btn">
+              {editingId ? <><Pencil size={18} /> Actualizar</> : <><Plus size={18} /> Guardar</>}
             </button>
+            {editingId && (
+              <button type="button" onClick={handleCancelEdit} className="admin-cancel-btn">
+                <X size={18} /> Cancelar
+              </button>
+            )}
           </form>
-          <table style={{ width: '100%', textAlign: 'left', borderCollapse: 'collapse' }}>
-            <thead><tr style={{ borderBottom: '1px solid #ececec' }}><th>Nombre</th><th>Precio</th><th>Acción</th></tr></thead>
-            <tbody>
-              {perfumes.map(p => (
-                <tr key={p.id} style={{ borderBottom: '1px solid #f4f4f4' }}>
-                  <td style={{ padding: 8 }}>{p.nombre}</td>
-                  <td style={{ padding: 8 }}>${p.precio}</td>
-                  <td style={{ padding: 8 }}><button onClick={() => deletePerfume(p.id)} style={{ color: '#e11d48', background: 'none', border: 'none' }}><Trash2 size={18}/></button></td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <div style={{ overflowX: 'auto' }}>
+            <table className="admin-table">
+              <thead><tr><th>Nombre</th><th>Precio</th><th style={{ width: 100 }}>Acción</th></tr></thead>
+              <tbody>
+                {perfumes.map(p => (
+                  <tr key={p.id}>
+                    <td>{p.nombre}</td>
+                    <td>${p.precio}</td>
+                    <td>
+                      <div style={{ display: 'flex', gap: 12 }}>
+                        <button onClick={() => handleEditClick(p)} style={{ color: '#D4AF37', background: 'none', border: 'none', cursor: 'pointer' }} title="Editar"><Pencil size={18}/></button>
+                        <button onClick={() => deletePerfume(p.id)} style={{ color: '#e11d48', background: 'none', border: 'none', cursor: 'pointer' }} title="Eliminar"><Trash2 size={18}/></button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
 

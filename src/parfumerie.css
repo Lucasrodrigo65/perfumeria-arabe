@@ -259,6 +259,70 @@ body {
   cursor: pointer;
 }
 
+/* Panel de Administrador */
+.admin-panel-container {
+  max-width: 900px;
+  margin: 40px auto;
+  background: #050505;
+  border-radius: 18px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+  border: 1px solid #332500;
+  padding: 32px;
+  color: #f5f5f5;
+}
+
+.admin-panel-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+  text-align: center;
+  color: #D4AF37;
+  font-family: 'Playfair Display', serif;
+}
+
+.admin-table {
+  width: 100%;
+  text-align: left;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.admin-table th {
+  border-bottom: 1px solid #332500;
+  color: #D4AF37;
+  padding: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.admin-table td {
+  border-bottom: 1px solid #1a1a1a;
+  padding: 12px;
+  color: #e0e0e0;
+}
+
+.admin-table tr:hover {
+  background: #0a0a0a;
+}
+
+.admin-cancel-btn {
+  background: #333;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0 18px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.admin-cancel-btn:hover {
+  background: #444;
+}
+
 /* Responsive Design (Móviles) */
 @media (max-width: 768px) {
   .header-parfumerie {
