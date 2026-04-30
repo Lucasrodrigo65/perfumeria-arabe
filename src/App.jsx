@@ -76,7 +76,7 @@ function App() {
   };
 
   return (
-    <div style={{ background: '#0d0d0d', minHeight: '100vh' }}>
+    <div style={{ background: '#000000', minHeight: '100vh' }}>
       {error && (
         <div style={{ background: '#1f0a0a', color: '#f87171', padding: '12px 24px', textAlign: 'center', fontWeight: 600, border: '1px solid #3b1010' }}>
           {error}
@@ -86,23 +86,26 @@ function App() {
 
       {/* Header tipo Parfumerie */}
       <header className="header-parfumerie">
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          <img src={goldenLogo} alt="Golden Essence Logo" style={{ height: 60, width: 'auto' }} />
-          <div className="logo-parfumerie" style={{ fontFamily: 'Playfair Display, serif', fontWeight: 700, fontSize: '2rem', color: '#FFD700', letterSpacing: 2, textShadow: '1px 1px 8px #000' }}>GOLDEN ESSENCE</div>
+        <div className="header-left">
+          <img src={goldenLogo} alt="Golden Essence Logo" className="logo-img" />
+          <nav className="menu-parfumerie">
+            <a href="#">PERFUMES</a>
+          </nav>
         </div>
-        <nav className="menu-parfumerie">
-          <a href="#" style={{ color: '#FFD700', fontWeight: 600, fontSize: '0.95rem', letterSpacing: '1px' }}>PERFUMES</a>
-        </nav>
-        <div className="search-bar">
-          <input
-            type="text"
-            placeholder="¿Qué perfume árabe buscás?"
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-          />
+        
+        <div className="header-center">
+          <div className="search-bar">
+            <input
+              type="text"
+              placeholder="¿Qué perfume árabe buscás?"
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+            />
+          </div>
         </div>
-        <button onClick={handleAdminToggle} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#888', fontSize: 14, marginRight: 16 }}>
-          <Shield size={16} style={{ verticalAlign: 'middle' }} /> {isAdmin ? 'Ver Tienda' : 'Admin'}
+
+        <button className="admin-btn" onClick={handleAdminToggle}>
+          <Shield size={16} style={{ verticalAlign: 'middle' }} /> <span className="admin-text">{isAdmin ? 'Ver Tienda' : 'Admin'}</span>
         </button>
       </header>
 
@@ -110,13 +113,13 @@ function App() {
       {isAdmin && (
         <div style={{ maxWidth: 900, margin: '40px auto', background: '#fff', borderRadius: 18, boxShadow: '0 2px 16px 0 rgba(0,0,0,0.07)', border: '1px solid #ececec', padding: 32 }}>
           <h2 style={{ fontSize: '2rem', fontWeight: 700, marginBottom: 24, textAlign: 'center' }}>Agregar Nuevo Perfume</h2>
-          <form onSubmit={addPerfume} style={{ display: 'flex', gap: 8, marginBottom: 32 }}>
-            <input placeholder="Nombre" style={{ flex: 2, padding: 8, borderRadius: 8, border: '1px solid #ececec' }} value={form.nombre} onChange={e => setForm({...form, nombre: e.target.value})} required />
-            <input placeholder="Marca (Lattafa, Afnan...)" style={{ flex: 2, padding: 8, borderRadius: 8, border: '1px solid #ececec' }} value={form.marca} onChange={e => setForm({...form, marca: e.target.value})} />
-            <input placeholder="Precio" type="number" style={{ flex: 1, padding: 8, borderRadius: 8, border: '1px solid #ececec' }} value={form.precio} onChange={e => setForm({...form, precio: e.target.value})} required />
-            <input placeholder="URL de la imagen" style={{ flex: 3, padding: 8, borderRadius: 8, border: '1px solid #ececec' }} value={form.imagen_url} onChange={e => setForm({...form, imagen_url: e.target.value})} />
-            <button style={{ background: '#c084fc', color: '#fff', border: 'none', borderRadius: 8, padding: '0 18px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 6 }}>
-              <Plus size={18} /> Guardar Perfume
+          <form onSubmit={addPerfume} className="admin-form">
+            <input placeholder="Nombre" className="admin-input" value={form.nombre} onChange={e => setForm({...form, nombre: e.target.value})} required />
+            <input placeholder="Marca (Lattafa, Afnan...)" className="admin-input" value={form.marca} onChange={e => setForm({...form, marca: e.target.value})} />
+            <input placeholder="Precio" type="number" className="admin-input" value={form.precio} onChange={e => setForm({...form, precio: e.target.value})} required />
+            <input placeholder="URL de la imagen" className="admin-input image-url-input" value={form.imagen_url} onChange={e => setForm({...form, imagen_url: e.target.value})} />
+            <button className="admin-submit-btn">
+              <Plus size={18} /> Guardar
             </button>
           </form>
           <table style={{ width: '100%', textAlign: 'left', borderCollapse: 'collapse' }}>

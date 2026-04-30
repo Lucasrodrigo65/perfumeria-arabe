@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap');
 
 body {
-  background: #0d0d0d;
+  background: #000000;
   color: #f5f5f5;
   font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
 }
@@ -10,9 +10,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 32px;
-  border-bottom: 1px solid #222;
-  background: #0d0d0d;
+  padding: 16px 32px;
+  border-bottom: 1px solid #332500;
+  background: rgba(5, 5, 5, 0.95);
+  backdrop-filter: blur(10px);
   position: sticky;
   top: 0;
   z-index: 10;
@@ -36,37 +37,42 @@ body {
 }
 
 .menu-parfumerie a {
-  color: #FFD700;
+  color: #D4AF37;
   text-decoration: none;
   padding-bottom: 4px;
   border-bottom: 2px solid transparent;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, text-shadow 0.2s;
 }
 
 .menu-parfumerie a:hover {
-  border-bottom-color: #FFD700;
+  border-bottom-color: #D4AF37;
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
 }
 
 .search-bar {
-  flex: 1;
-  margin: 0 32px;
-  max-width: 380px;
+  width: 100%;
 }
 
 .search-bar input {
   width: 100%;
   padding: 10px 18px;
-  border: 1px solid #333;
+  border: 1px solid #332500;
   border-radius: 24px;
   font-size: 0.95rem;
-  background: #1a1a1a;
-  color: #f5f5f5;
+  background: #0a0a0a;
+  color: #D4AF37;
   outline: none;
-  transition: border-color 0.2s;
+  transition: all 0.3s ease;
+}
+
+.search-bar input::placeholder {
+  color: #665533;
 }
 
 .search-bar input:focus {
-  border-color: #FFD700;
+  border-color: #D4AF37;
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+  background: #111111;
 }
 
 /* Grid de productos */
@@ -81,19 +87,19 @@ body {
 
 /* Tarjeta de perfume */
 .card-parfumerie {
-  background: #151515;
+  background: #050505;
   border-radius: 20px;
   overflow: hidden;
-  border: 1px solid #252525;
+  border: 1px solid #261c00;
   display: flex;
   flex-direction: column;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
 .card-parfumerie:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
-  border-color: rgba(255, 215, 0, 0.3);
+  transform: translateY(-6px);
+  box-shadow: 0 15px 40px rgba(212, 175, 55, 0.15);
+  border-color: #D4AF37;
 }
 
 /* Imagen del producto */
@@ -101,7 +107,8 @@ body {
   position: relative;
   width: 100%;
   height: 340px;
-  background: linear-gradient(145deg, #1a1a1a 0%, #0d0d0d 100%);
+  background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
+  border-bottom: 1px solid #1a1300;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -148,33 +155,167 @@ body {
 .card-parfumerie .precio {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #FFD700;
+  color: #D4AF37;
   margin-top: 4px;
+  text-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
 }
 
 /* Botón WhatsApp */
 .card-parfumerie .btn-whatsapp {
-  background: #25d366;
-  color: #fff;
-  border: none;
+  background: linear-gradient(135deg, #D4AF37 0%, #996515 100%);
+  color: #000;
+  border: 1px solid #F3E5AB;
   border-radius: 12px;
   padding: 14px 20px;
   font-size: 0.95rem;
-  font-weight: 700;
+  font-weight: 800;
   cursor: pointer;
   margin-top: auto;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  transition: background 0.2s, transform 0.15s;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+  transition: all 0.3s ease;
 }
 
 .card-parfumerie .btn-whatsapp:hover {
-  background: #1ebe5d;
-  transform: scale(1.02);
+  background: linear-gradient(135deg, #F3E5AB 0%, #D4AF37 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
 }
 
 .card-parfumerie .btn-whatsapp:active {
   transform: scale(0.98);
+}
+
+/* Nuevas clases estructurales */
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.logo-img {
+  height: 90px;
+  width: auto;
+  object-fit: contain;
+}
+
+.menu-parfumerie {
+  display: flex;
+  gap: 0;
+}
+
+.header-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 400px;
+}
+
+.admin-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #888;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Formulario Admin */
+.admin-form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 32px;
+}
+
+.admin-input {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ececec;
+  flex: 1;
+  background: #111;
+  color: #fff;
+}
+
+.admin-input.image-url-input {
+  flex: 2;
+}
+
+.admin-submit-btn {
+  background: linear-gradient(135deg, #D4AF37 0%, #996515 100%);
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  padding: 0 18px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+/* Responsive Design (Móviles) */
+@media (max-width: 768px) {
+  .header-parfumerie {
+    flex-direction: column;
+    padding: 16px;
+    gap: 16px;
+    position: static; /* Quitar sticky en mobile para dar mas espacio */
+  }
+
+  .header-left {
+    width: 100%;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .logo-img {
+    height: 60px; /* Logo más chico en celular */
+  }
+
+  .menu-parfumerie a {
+    font-size: 0.85rem;
+  }
+
+  .header-center {
+    position: static;
+    transform: none;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .admin-btn {
+    align-self: flex-end;
+    margin-right: 0;
+  }
+
+  .admin-text {
+    display: none; /* Ocultar el texto "Admin" en móvil, dejar solo el ícono */
+  }
+
+  .cards-parfumerie {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    padding: 20px 16px;
+    gap: 20px;
+  }
+
+  .admin-form {
+    flex-direction: column;
+  }
+  
+  .admin-input, .admin-submit-btn {
+    width: 100%;
+    padding: 12px;
+    box-sizing: border-box;
+  }
+  
+  .admin-submit-btn {
+    justify-content: center;
+    padding: 16px;
+  }
 }
